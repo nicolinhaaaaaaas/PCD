@@ -1,0 +1,24 @@
+#Escreva um pseudocódigo para uma soma global estruturada em árvore. Suponha que o
+#número de núcleos seja uma potência de dois.
+
+// Função recursiva para a soma global estruturada em árvore
+func somaGlobal(valores[], inicio, fim, meu_id):
+    se inicio = fim então
+        retornar valores[inicio]
+    
+    meio = (inicio + fim) / 2
+    
+    // Cálculo das somas parciais pelos núcleos
+    se meu_id < número_de_núcleos / 2 então
+        // Núcleos da metade superior da árvore
+        soma_esquerda = somaGlobal(valores, inicio, meio, meu_id)
+        soma_direita = somaGlobal(valores, meio + 1, fim, meu_id + número_de_núcleos / 2)
+        retornar soma_esquerda + soma_direita
+    senão
+        // Núcleos da metade inferior da árvore
+        enviar soma parcial para o núcleo pai
+        aguardar soma parcial do núcleo irmão
+        retornar soma parcial + soma recebida do irmão
+
+// Cada núcleo chama a função somaGlobal com o seu ID de núcleo
+resultado_global = somaGlobal(valores, 0, tamanho_do_array - 1, meu_id)
