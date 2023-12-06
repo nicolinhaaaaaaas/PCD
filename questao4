@@ -1,0 +1,29 @@
+# Podemos usar os operadores bit a bit de C para implementar uma soma global estruturada em árvore. Implemente este algoritmo em pseudocódigo usando o operador OU
+EXCLUSIVO e o operador shift para esquerda
+
+// Função para calcular a soma global estruturada em árvore
+// utilizando operadores bit a bit XOR e shift para esquerda
+função somaGlobal(valores[], tamanho_do_array, meu_id):
+    para deslocamento = 1 até (tamanho_do_array >> 1) passo deslocamento << 1 faça
+        se (meu_id & deslocamento) == 0 então
+            // Cálculo do intervalo de valores
+            meu_id_inicial = meu_id * (deslocamento << 1)
+            meu_id_final = meu_id_inicial + (deslocamento << 1) - 1
+            meio = meu_id_inicial + deslocamento - 1
+
+            // Soma parcial do intervalo
+            valores[meu_id_final] ^= valores[meio]
+    
+    // Cálculo da soma global
+    para deslocamento = (tamanho_do_array >> 1) até 1 passo deslocamento >> 1 faça
+        se (meu_id & deslocamento) == 0 então
+            // Cálculo do intervalo de valores
+            meu_id_inicial = meu_id * (deslocamento << 1)
+            meu_id_final = meu_id_inicial + (deslocamento << 1) - 1
+            meio = meu_id_inicial + deslocamento - 1
+
+            // Combinar resultados
+            valores[meio + deslocamento] ^= valores[meu_id_final]
+
+// Cada núcleo chama a função somaGlobal com o seu ID de núcleo
+somaGlobal(valores, tamanho_do_array, meu_id)
