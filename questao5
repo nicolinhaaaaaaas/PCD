@@ -1,0 +1,31 @@
+Escreva um pseudocódigo para uma soma global estruturada em árvore. Considere que
+o número de núcleos pode não ser uma potência de dois.
+
+// Função para calcular a soma global estruturada em árvore
+função somaGlobal(valores[], tamanho_do_array, número_de_núcleos, meu_id):
+    passo = tamanho_do_array / número_de_núcleos
+
+    // Fase descendente da árvore
+    para distância = 1 até (número_de_núcleos - 1) passo 2 faça
+        se (meu_id % distância) == 0 então
+            meu_id_parceiro = meu_id + distância
+            índice_inicial = meu_id * passo
+            índice_final = índice_inicial + passo - 1
+
+            // Soma parcial
+            para i = índice_inicial + passo/2 até índice_final passo passo dobro faça
+                valores[i] += valores[i - passo/2]
+
+    // Fase ascendente da árvore
+    para distância = número_de_núcleos / 2 até 1 passo distância / 2 faça
+        se (meu_id % distância) == 0 então
+            meu_id_parceiro = meu_id + distância
+            índice_inicial = meu_id * passo
+            índice_final = índice_inicial + passo - 1
+
+            // Combinação dos resultados
+            para i = índice_inicial + passo/2 até índice_final passo passo dobro faça
+                valores[i] += valores[i - passo/2]
+
+// Cada núcleo chama a função somaGlobal com o seu ID de núcleo
+somaGlobal(valores, tamanho_do_array, número_de_núcleos, meu_id)
